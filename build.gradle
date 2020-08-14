@@ -1,5 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.3.2.RELEASE'
+//    id 'org.springframework.boot' version '2.3.2.RELEASE'
+    id 'org.springframework.boot' version '2.2.4.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
 }
@@ -7,23 +8,6 @@ plugins {
 group = 'com.vm'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
-
-//jar{
-//    from {
-//        configurations.runtime.collect {
-//            it.isDirectory() ? it : zipTree(it)
-//        }
-//        configurations.compile.collect {
-//            it.isDirectory() ? it : zipTree(it)
-//        }
-//    }
-//    manifest {
-//        attributes 'Main-Class': 'com.vm.elk.ElkApplication'
-//    }
-//
-//    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
-//}
-
 
 configurations {
     compileOnly {
@@ -36,19 +20,36 @@ repositories {
 }
 
 dependencies {
-//    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+
 //    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 //    compileOnly 'org.projectlombok:lombok'
-//    runtimeOnly 'org.postgresql:postgresql'
+
+    // database
+    implementation 'org.postgresql:postgresql'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.2'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc' // DataSource에 필요한 클래스 제공
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // etc
     annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'javax.servlet:jstl'
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+    // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
+//    compile group: 'com.zaxxer', name: 'HikariCP', version: '3.4.1'
+
 
     // https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder
     compile group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '4.11'
 
     //embed Tomcat Starter
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.3.0.RELEASE'
+
 
 }
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vm.elk.mapper.MsgMapper">
+
+    <insert id="addMsg">
+        INSERT INTO (msg, msgNum)
+        VALUES (#{msg}, #{msgNum})
+    </insert>
+
+<!--    &lt;!&ndash; 게시글 총 갯수 &ndash;&gt;-->
+<!--    <select id="boardListTotalCnt" resultType="Integer">-->
+<!--        SELECT count(*)-->
+<!--        FROM bbs_board;-->
+<!--    </select>-->
+
+
+<!--    &lt;!&ndash; 게시글 작성 &ndash;&gt;-->
+<!--    <insert id="saveBoardWrite" parameterType="BoardVO" useGeneratedKeys="true" keyProperty="boardId">-->
+<!--        INSERT INTO bbs_board (accountId, title, content, writer, boardType)-->
+<!--        VALUES (#{accountId}, #{title}, #{content}, #{writer}, #{boardType});-->
+<!--    </insert>-->
+
+<!--    &lt;!&ndash; 게시글 조회수 &ndash;&gt;-->
+<!--    <update id="increaseViewCnt" parameterType="Long">-->
+<!--        UPDATE bbs_board-->
+<!--        SET viewCnt = viewCnt + 1-->
+<!--        WHERE boardId = #{boardId};-->
+<!--    </update>-->
+
+
+
+
+
+</mapper>
