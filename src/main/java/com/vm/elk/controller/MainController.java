@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MainController {
 
-    private MsgService service;
-    public MainController(MsgService service){
+    private final MsgService service;
+
+    public MainController(MsgService service) {
         this.service = service;
     }
 
@@ -26,19 +27,18 @@ public class MainController {
     @ResponseBody
     public ResponseEntity<MsgVO> addMsg() {
         MsgVO msg = new MsgVO();
-
-        msg.setMsg("hello world message");
+        msg.setMsg("button clicked");
         msg.setMsgNum(1);
-        service.addMsg(msg);
 
-        try{
+        try {
+            if (msg.getMsg() != null && msg.getMsgNum() == 1) {
+                service.addMsg(msg);
+            }
             return new ResponseEntity<>(msg, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
         }
-
-
     }
 
 

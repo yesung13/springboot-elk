@@ -3,7 +3,7 @@
 <mapper namespace="com.vm.elk.mapper.MsgMapper">
 
     <insert id="addMsg">
-        INSERT INTO (msg, msgNum)
+        INSERT INTO tbl_msg (msg, msgNum)
         VALUES (#{msg}, #{msgNum})
     </insert>
 

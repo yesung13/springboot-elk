@@ -4,5 +4,5 @@ import com.vm.elk.model.MsgVO;
 
 public interface MsgService {
 
-    public void addMsg(MsgVO msgVO);
+    public void addMsg(MsgVO msgVO) throws Exception;
 }

@@ -14,7 +14,7 @@ public class MsgServiceImpl implements MsgService {
 
 
     @Override
-    public void addMsg(MsgVO msgVO) {
+    public void addMsg(MsgVO msgVO) throws Exception {
         mapper.addMsg(msgVO);
     }
 }
