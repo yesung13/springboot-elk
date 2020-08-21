@@ -15,16 +15,17 @@ public class ElkApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        int i = 0;
-        while (true) {
-            Thread.sleep(3000);
-            if (1 != 1) {
-                break;
-            }
-
-            ++i;
-            log.info("Hello world ::: {}", i);
-        }
-
+//        int i = 0;
+//        while (true) {
+//            Thread.sleep(3000);
+//            if (1 != 1) {
+//                break;
+//            }
+//
+//            ++i;
+//            log.info("Hello world ::: {}", i);
+//        }
+        log.info("====Sping boot started======");
     }
+
 }

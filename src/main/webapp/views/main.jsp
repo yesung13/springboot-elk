@@ -15,46 +15,53 @@
 <h1>Message Service</h1>
 
 <form role="form">
-    <button type="button" id="btn1" onclick="btnSel(1)">버튼 1</button>
+    <button type="button" id="btn1" onclick="btnSel(1, 'btn1 clicked')">버튼 1</button>
 
-    <button type="button" id="btn2" onclick="btnSel(2)">버튼 2</button>
+    <button type="button" id="btn2" onclick="btnSel(2, 'btn2 clicked')">버튼 2</button>
 
-    <button type="button" id="btn3" onclick="btnSel(3)">버튼 3</button>
+    <button type="button" id="btn3" onclick="btnSel(3, 'btn3 clicked')">버튼 3</button>
 </form>
 <script type="text/javascript">
-    function btnSel(sel) {
+    function btnSel(sel, message) {
         switch (sel) {
             case 1: {
-                console.log("click btn: ", sel);
-                objSubmit();
+                console.log("click btn: [", message, ": ", sel, "]");
+                objSubmit(sel, message);
                 break;
             }
             case 2: {
-                console.log("click btn: ", sel);
-                objSubmit();
+                console.log("click btn: [", message, ": ", sel, "]");
+                objSubmit(sel, message);
                 break;
             }
             case 3: {
-                console.log("click btn: ", sel);
-                objSubmit();
+                console.log("click btn: [", message, ": ", sel, "]");
+                objSubmit(sel, message);
                 break;
             }
 
         }
     }
 
-    let objSubmit = function () {
+    let objSubmit = function (sel, message) {
 
         // $("button[type='button']").on('click', function (e) {
-        let form = $("form[role='form']");
-        let obj = new FormData(form[0]);
+        // let form = $("form[role='form']");
+        // let obj = new FormData(form[0]);
+
+        let data = {};
+        data.msg = message;
+        data.msgNum = sel;
+        console.log(data);
 
         $.ajax({
             url: '/addMsg',
             type: 'POST',
-            data: obj,
-            processData: false,
-            contentType: false,
+            // data: obj,
+            data: data,
+            // processData: false,
+            // contentType: false,
+            dataType: 'json',
             success: function (response, jqXHR, xhr) {
                 console.log("Insert Response Data:", response);
                 console.log(xhr.status)
