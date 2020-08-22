@@ -35,12 +35,12 @@ public class MainController {
         try {
             if (msg.getMsg() != null) {
                 service.addMsg(msg);
-                log.info("[button message]: {} => {}", msg.getMsg(), msg.getMsgNum());
+                log.info("[{}]:{}", msg.getMsg(), msg.getMsgNum());
             }
             return new ResponseEntity<>(msg, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(msg, HttpStatus.GATEWAY_TIMEOUT);
         }
     }
 

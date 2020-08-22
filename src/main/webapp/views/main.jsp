@@ -15,11 +15,11 @@
 <h1>Message Service</h1>
 
 <form role="form">
-    <button type="button" id="btn1" onclick="btnSel(1, 'btn1 clicked')">버튼 1</button>
+    <button type="button" id="btn1" onclick="btnSel(1, 'button')">버튼 1</button>
 
-    <button type="button" id="btn2" onclick="btnSel(2, 'btn2 clicked')">버튼 2</button>
+    <button type="button" id="btn2" onclick="btnSel(2, 'button')">버튼 2</button>
 
-    <button type="button" id="btn3" onclick="btnSel(3, 'btn3 clicked')">버튼 3</button>
+    <button type="button" id="btn3" onclick="btnSel(3, 'button')">버튼 3</button>
 </form>
 <script type="text/javascript">
     function btnSel(sel, message) {
@@ -65,16 +65,13 @@
             success: function (response, jqXHR, xhr) {
                 console.log("Insert Response Data:", response);
                 console.log(xhr.status)
-                console.log(jqXHR)
                 if (xhr.status === 200) {
-                    alert("성공");
-                } else if (xhr.status === 400) {
-                    alert("실패");
+                    alert(xhr.status + ": " + jqXHR)
                 }
             },
-            error: function (xhr, e, response) {
-                console.log("Insert Error:", xhr, e, response);
-                alert("에러!!")
+            error: function (xhr, e) {
+                console.log("Insert Error:", xhr.status);
+                alert(xhr.status + ": " + e)
             }
         });
     }

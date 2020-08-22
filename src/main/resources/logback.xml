@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <!--<configuration scan="true" scanPeriod="60 seconds">-->
+
+    <!--    출처: https://aljjabaegi.tistory.com/413 [알짜배기 프로그래머]-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
     <conversionRule conversionWord="wex"
@@ -12,33 +17,45 @@
               value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
 
     <!-- 추가 -->
-    <property resource="application.yml" />
-    <springProperty name="DRIVER_CLASS" source="spring.datasource.hikari.driver-class-name" />
-    <springProperty name="URL" source="spring.datasource.hikari.jdbc-url" />
-    <springProperty name="USER" source="spring.datasource.hikari.username" />
-    <springProperty name="PASSWORD" source="spring.datasource.hikari.password" />
+    <!--    <property resource="application.yml"/>-->
+    <!--    <springProperty name="DRIVER_CLASS" source="spring.datasource.hikari.driver-class-name"/>-->
+    <!--    <springProperty name="URL" source="spring.datasource.hikari.jdbc-url"/>-->
+    <!--    <springProperty name="USER" source="spring.datasource.hikari.username"/>-->
+    <!--    <springProperty name="PASSWORD" source="spring.datasource.hikari.password"/>-->
 
 
-    <appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
-        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
-            <driverClass>${DRIVER_CLASS}</driverClass>
-            <url>${URL}</url>
-            <user>${USER}</user>
-            <password>${PASSWORD}</password>
-        </connectionSource>
+    <!--    <appender name="DB" class="ch.qos.logback.classic.db.DBAppender">-->
+    <!--        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">-->
+    <!--            <driverClass>${DRIVER_CLASS}</driverClass>-->
+    <!--            <url>${URL}</url>-->
+    <!--            <user>${USER}</user>-->
+    <!--            <password>${PASSWORD}</password>-->
+    <!--        </connectionSource>-->
+    <!--    </appender>-->
+
+    <!--/추가 끝-->
+
+
+    <!-- 콘솔로 로그를 남기는 설정 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!--추가-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <!--/추가끝-->
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <!--             <pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-3level %logger{5} - %msg %n</pattern>-->
+            <!--            <pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%file:%line] %msg%n</pattern>
+            &lt;!&ndash;추가&ndash;&gt;-->
+            <charset>utf8</charset>
+        </encoder>
     </appender>
 
 
-    <!-- console에 나타내기 위함이다. -->
-<!--    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">-->
-<!--        <encoder>-->
-<!--            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>-->
-<!--        </encoder>-->
-<!--    </appender>-->
-
-
+    <!-- 파일로 로그를 남기는 설정 -->
     <!-- encoder를 통하여 데이터 형식을 JSON으로 변환하고 파일을 저장한다. -->
-    <appender name="STASH" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="FILE_STASH" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logback/spring.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -48,49 +65,43 @@
         <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>
 
-    <!--    &lt;!&ndash; logstash 4560포트 설정에 맞춰 설정 &ndash;&gt;-->
-    <!--    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
-    <!--        <destination>127.0.0.1:4560</destination>-->
-    <!--        <encoder class="net.logstash.logback.encoder.LogstashEncoder"></encoder>-->
-    <!--    </appender>-->
-
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
-            <!-- <pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-3level %logger{5} - %msg %n</pattern>-->
-            <charset>utf8</charset>
-        </encoder>
+    <!-- logstash 포트 설정에 맞춰 설정 -->
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>172.30.1.57:4560</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>
 
-    <logger name="jdbc" level="OFF"/>
 
+    <!-- mybatis query log setting -->
+    <logger name="jdbc" level="OFF"/>
     <!-- SQL문만 로깅, PreparedStatement일 경우 관련된 argument 값으로 대체된 SQL문 출력 -->
     <logger name="jdbc.sqlonly" level="OFF"/>
-
     <!-- SQL문과 수행 시간 정보(milliseconds) 포함 -->
     <logger name="jdbc.sqltiming" level="OFF"/>
-<!--    <logger name="jdbc.sqltiming" level="DEBUG"/> -->
-
+    <!--    <logger name="jdbc.sqltiming" level="DEBUG"/> -->
     <!-- ResultSet을 제외한 모든 JDBC 호출 정보 로깅. JDBC 문제를 추적해야 할 필요가 있는 경우에만 사용 -->
     <logger name="jdbc.audit" level="OFF"/>
-
     <!-- ResultSet을 포함한 모든 JDBC 호출 정보 로깅. 로그양이 많음 -->
     <logger name="jdbc.resultset" level="OFF"/>
-
     <!-- SQL 결과를 table 형태로 로깅 -->
     <logger name="jdbc.resultsettable" level="INFO"/>
-<!--    <logger name="jdbc.resultsettable" level="DEBUG"/>-->
-
+    <!--    <logger name="jdbc.resultsettable" level="DEBUG"/>-->
     <!-- Connection의 연결과 종료에 관련된 로깅. 메모리 누수 확인? -->
     <logger name="jdbc.connection" level="OFF"/>
 
-    <root level="INFO">
-<!--        <appender-ref ref="console"/>-->
-        <appender-ref ref="STASH"/>
-        <!--        <appender-ref ref="LOGSTASH"/>-->
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="DB"/>
+    <!-- mybatis query log setting end-->
+
+    <logger name="com.vm.elk.ElkApplication" level="INFO"/>
+    <logger name="com.vm.elk.controller.MainController" level="INFO"/>
+    <logger name="LOGSTASH" level="INFO" additivity="false">
+        <appender-ref ref="LOGSTASH"/>
+    </logger>
+
+    <root level="warn">
+        <!--        <appender-ref ref="DB"/>-->
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE_STASH"/>
+        <appender-ref ref="LOGSTASH"/>
     </root>
 
 </configuration>
