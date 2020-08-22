@@ -11,12 +11,31 @@
     <property name="CONSOLE_LOG_PATTERN"
               value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
 
+    <!-- 추가 -->
+    <property resource="application.yml" />
+    <springProperty name="DRIVER_CLASS" source="spring.datasource.hikari.driver-class-name" />
+    <springProperty name="URL" source="spring.datasource.hikari.jdbc-url" />
+    <springProperty name="USER" source="spring.datasource.hikari.username" />
+    <springProperty name="PASSWORD" source="spring.datasource.hikari.password" />
+
+
+    <appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+            <driverClass>${DRIVER_CLASS}</driverClass>
+            <url>${URL}</url>
+            <user>${USER}</user>
+            <password>${PASSWORD}</password>
+        </connectionSource>
+    </appender>
+
+
     <!-- console에 나타내기 위함이다. -->
 <!--    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">-->
 <!--        <encoder>-->
 <!--            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>-->
 <!--        </encoder>-->
 <!--    </appender>-->
+
 
     <!-- encoder를 통하여 데이터 형식을 JSON으로 변환하고 파일을 저장한다. -->
     <appender name="STASH" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -51,7 +70,7 @@
 
     <!-- SQL문과 수행 시간 정보(milliseconds) 포함 -->
     <logger name="jdbc.sqltiming" level="OFF"/>
-<!--    <logger name="jdbc.sqltiming" level="DEBUG"/>-->
+<!--    <logger name="jdbc.sqltiming" level="DEBUG"/> -->
 
     <!-- ResultSet을 제외한 모든 JDBC 호출 정보 로깅. JDBC 문제를 추적해야 할 필요가 있는 경우에만 사용 -->
     <logger name="jdbc.audit" level="OFF"/>
@@ -61,6 +80,7 @@
 
     <!-- SQL 결과를 table 형태로 로깅 -->
     <logger name="jdbc.resultsettable" level="INFO"/>
+<!--    <logger name="jdbc.resultsettable" level="DEBUG"/>-->
 
     <!-- Connection의 연결과 종료에 관련된 로깅. 메모리 누수 확인? -->
     <logger name="jdbc.connection" level="OFF"/>
@@ -70,6 +90,7 @@
         <appender-ref ref="STASH"/>
         <!--        <appender-ref ref="LOGSTASH"/>-->
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DB"/>
     </root>
 
 </configuration>

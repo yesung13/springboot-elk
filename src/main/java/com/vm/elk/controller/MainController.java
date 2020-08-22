@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Slf4j
@@ -35,7 +34,7 @@ public class MainController {
 
         try {
             if (msg.getMsg() != null) {
-//                service.addMsg(msg);
+                service.addMsg(msg);
                 log.info("[button message]: {} => {}", msg.getMsg(), msg.getMsgNum());
             }
             return new ResponseEntity<>(msg, HttpStatus.OK);
