@@ -56,6 +56,10 @@
     <!-- 파일로 로그를 남기는 설정 -->
     <!-- encoder를 통하여 데이터 형식을 JSON으로 변환하고 파일을 저장한다. -->
     <appender name="FILE_STASH" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 지정된 임계 값 아래 이벤트 필터링. 임계값보다 낮은 레벨의 경우 이벤트는 거부-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
         <file>logback/spring.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -68,7 +72,7 @@
     <!-- logstash 포트 설정에 맞춰 설정 -->
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>172.30.1.57:4560</destination>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/><!-- required -->
     </appender>
 
 
