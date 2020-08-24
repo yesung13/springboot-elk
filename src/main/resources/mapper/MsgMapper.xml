@@ -2,12 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.vm.elk.mapper.MsgMapper">
 
+    <select id="getList" resultType="com.vm.elk.model.MsgDTO">
+        SELECT message, messagenum, createdt
+        FROM tbl_msg;
+    </select>
+
     <insert id="addMsg">
         INSERT INTO tbl_msg (message, messagenum)
         VALUES (#{msg}, #{msgNum})
     </insert>
 
-<!--    &lt;!&ndash; 게시글 총 갯수 &ndash;&gt;-->
+
+    <!--    &lt;!&ndash; 게시글 총 갯수 &ndash;&gt;-->
 <!--    <select id="boardListTotalCnt" resultType="Integer">-->
 <!--        SELECT count(*)-->
 <!--        FROM bbs_board;-->

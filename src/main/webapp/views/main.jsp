@@ -13,13 +13,35 @@
 </head>
 <body>
 <h1>Message Service</h1>
+<div class="mb-2">
+    <button type="button" class="btn btn-info" id="list">List</button>
+</div>
+<script type="text/javascript">
+    $('#list').on('click', function (e) {
+        $.ajax({
+            url: '/getList',
+            type: 'GET',
+            dataType: 'json',
+            success: function (result, jqXHR, xhr) {
+                if (xhr.status === 200) {
+                    console.log(result);
+                    alert(xhr.status + ": " + jqXHR);
+                }
+            },
+            error: function (xhr, e) {
+                console.log("Insert Error:", xhr.status);
+                alert(xhr.status + ": " + e)
+            }
+        });
+    }).css('width', 220);
+</script>
 
 <form role="form">
-    <button type="button" id="btn1" onclick="btnSel(1, 'button')">버튼 1</button>
+    <button type="button" class="btn btn-success" id="btn1" onclick="btnSel(1, 'button')">버튼 1</button>
 
-    <button type="button" id="btn2" onclick="btnSel(2, 'button')">버튼 2</button>
+    <button type="button" class="btn btn-success" id="btn2" onclick="btnSel(2, 'button')">버튼 2</button>
 
-    <button type="button" id="btn3" onclick="btnSel(3, 'button')">버튼 3</button>
+    <button type="button" class="btn btn-success" id="btn3" onclick="btnSel(3, 'button')">버튼 3</button>
 </form>
 <script type="text/javascript">
     function btnSel(sel, message) {

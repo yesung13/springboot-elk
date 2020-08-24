@@ -71,7 +71,8 @@
 
     <!-- logstash 포트 설정에 맞춰 설정 -->
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>172.30.1.57:4560</destination>
+<!--        <destination>172.30.1.57:4560</destination>-->
+        <destination>192.168.30.51:4560</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder"/><!-- required -->
     </appender>
 
